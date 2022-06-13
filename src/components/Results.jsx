@@ -10,14 +10,12 @@ const Results = () => {
     const location = useLocation() // get route e.g. // image
 
     useEffect(() => {
-        console.log(searchTerm)
         if (searchTerm) {
-            if (location === '/videos')
-                getResults(`/search/q=${searchTerm} videos`)
+            if (location === '/video')
+                getResults(`/video/q=${searchTerm}`)
             else
                 getResults(`${location.pathname}/q=${searchTerm}&num=20`)
         }
-        // getResults('/search/q=answers&num=20')
     }, [searchTerm, location.pathname])
 
     if (isLoading) return 'Loading...'
@@ -62,27 +60,32 @@ const Results = () => {
                                 <p className='text-lg dark:text-blue-300 text-blue-700'>
                                     {title}
                                 </p>
-                                <div className='flex gap-4'>
-                                    <a href={source?.href} target='_blank' rel='noreferrer'>
-                                        {source?.href}
-                                    </a>
-                                </div>
                             </a>
+                            <div className='flex gap-4 hover:underline'>
+                                <a href={source?.href} target='_blank' rel='noreferrer'>
+                                    {source?.href}
+                                </a>
+                            </div>
                         </div>
                     ))}
                 </div>
             )
-        case '/videos':
-            return 'Videos'
+        case '/video':
+            return (
+                <div className='flex flex-wrap'>
+                    {results.map((video, index) => (
+                        <div key={index} className='p-2'>
+                            <ReactPlayer
+                                url={video.additional_links?.[0].href} width='355px' height='200px'
+                                fallback={<h1>Link</h1>} light={true}
+                            />
+                        </div>
+                    ))}
+                </div>
+            )
         default:
             return 'Error'
     }
-
-    // return (
-    //     <div>
-    //         Results
-    //     </div>
-    // )
 }
 
 export default Results
