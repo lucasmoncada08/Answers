@@ -14,7 +14,7 @@ const Results = () => {
             if (location === '/video')
                 getResults(`/video/q=${searchTerm}`)
             else
-                getResults(`${location.pathname}/q=${searchTerm}&num=20`)
+                getResults(`${location.pathname}/q=${searchTerm}&num=50`)
         }
     }, [searchTerm, location.pathname])
 
