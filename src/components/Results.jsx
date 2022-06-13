@@ -18,7 +18,9 @@ const Results = () => {
         }
     }, [searchTerm, location.pathname])
 
-    if (isLoading) return 'Loading...'
+
+    if (isLoading) return <Loading/>
+    if (location.pathname === '/search' && results?.[0]?.link?.domain != null) return <Loading/>
 
     switch (location.pathname) {
         case '/search':
@@ -75,10 +77,13 @@ const Results = () => {
                 <div className='flex flex-wrap'>
                     {results.map((video, index) => (
                         <div key={index} className='p-2'>
-                            <ReactPlayer
-                                url={video.additional_links?.[0].href} width='355px' height='200px'
-                                fallback={<h1>Link</h1>} light={true}
-                            />
+                            {
+                                video?.additional_links?.[0].href && 
+                                <ReactPlayer
+                                    url={video?.additional_links?.[0].href} width='355px' height='200px'
+                                    fallback={<h1>Link</h1>} light={true}
+                                />
+                            }
                         </div>
                     ))}
                 </div>
